@@ -1,0 +1,17 @@
+import redis
+from datetime import datetime
+from fastapi import HTTPException
+from .config import settings
+
+r = redis.from_url(settings.REDIS_URL, decode_responses=True)
+
+def check_budget(user_id: str, estimated_cost: float = 0.05):
+    month_key = datetime.now().strftime("%Y-%m")
+    key = f"budget:{user_id}:{month_key}"
+    
+    current_spent = float(r.get(key) or 0)
+    if current_spent + estimated_cost > settings.MONTHLY_BUDGET_USD:
+        raise HTTPException(status_code=402, detail="Monthly budget exceeded")
+        
+    r.incrbyfloat(key, estimated_cost)
+    r.expire(key, 32 * 24 * 3600)  # TTL for month
