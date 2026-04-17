@@ -1,3 +1,6 @@
+# Link Deploy 
+https://precious-spontaneity-production-66dd.up.railway.app/health
+
 # ⚡ Quick Start — Get Started in 5 Minutes
 
 > Jump right into the lab without reading everything first

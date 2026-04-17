@@ -87,9 +87,7 @@ python app.py
 
 Test:
 ```bash
-curl http://localhost:8000/ask -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Hello"}'
+curl http://localhost:8000/ask -X POST -H "Content-Type: application/json" -d '{"question": "Hello"}'
 ```
 
 **Quan sát:** Nó chạy! Nhưng có production-ready không?
@@ -158,9 +156,7 @@ docker build -f 02-docker/develop/Dockerfile -t my-agent:develop .
 docker run -p 8000:8000 my-agent:develop
 
 # Test
-curl http://localhost:8000/ask -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What is Docker?"}'
+curl http://localhost:8000/ask -X POST -H "Content-Type: application/json" -d '{"question": "What is Docker?"}'
 ```
 
 **Quan sát:** Image size là bao nhiêu?
@@ -201,9 +197,7 @@ Test:
 curl http://localhost/health
 
 # Agent endpoint
-curl http://localhost/ask -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Explain microservices"}'
+curl http://localhost/ask -X POST -H "Content-Type: application/json" -d '{"question": "Explain microservices"}'
 ```
 
 ###  Checkpoint 2
@@ -278,9 +272,7 @@ Test:
 curl http://student-agent-domain/health
 
 # Agent endpoint
-curl http://studen-agent-domain/ask -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"question": ""}'
+curl https://precious-spontaneity-production-66dd.up.railway.app/health -X POST -H "Content-Type: application/json" -d "{\"question\": \"TÔI LÀ CON CHÓ ĐÚNG KHÔNG?\"}"
 ```
 
 ###  Exercise 3.2: Deploy Render (15 phút)
@@ -347,15 +339,10 @@ Test:
 python app.py
 
 #  Không có key
-curl http://localhost:8000/ask -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Hello"}'
+curl http://localhost:8000/ask -X POST -H "Content-Type: application/json" -d "{\"question\": \"Hello\"}"
 
 #  Có key
-curl http://localhost:8000/ask -X POST \
-  -H "X-API-Key: secret-key-123" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Hello"}'
+curl http://localhost:8000/ask -X POST -H "X-API-Key: secret-key-123" -H "Content-Type: application/json" -d "{\"question\": \"Hello\"}"
 ```
 
 ###  Exercise 4.2: JWT authentication (Advanced)
@@ -366,22 +353,18 @@ cd ../production
 
 **Nhiệm vụ:** 
 1. Đọc `auth.py` — hiểu JWT flow
-2. Lấy token:
+2. Lấy token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHVkZW50Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzY0MjE3NTYsImV4cCI6MTc3NjQyNTM1Nn0.p_2_9Gvoa17Bh9F2gpT_eVwbnun0PqZ3FdUg2V85N6k
 ```bash
 python app.py
 
-curl http://localhost:8000/token -X POST \
-  -H "Content-Type: application/json" \
-  -d '{"username": "admin", "password": "secret"}'
+curl http://localhost:8000/token -X POST -H "Content-Type: application/json" -d "{\"username\": \"admin\", \"password\": \"secret\"}"
 ```
+curl http://localhost:8000/token -X POST -H "Content-Type: application/json" -d "{\"username\":\"student\",\"password\":\"demo123\"}"
 
 3. Dùng token để gọi API:
 ```bash
-TOKEN="<token_từ_bước_2>"
-curl http://localhost:8000/ask -X POST \
-  -H "Authorization: Bearer $TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "Explain JWT"}'
+TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHVkZW50Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzY0MjE3NTYsImV4cCI6MTc3NjQyNTM1Nn0.p_2_9Gvoa17Bh9F2gpT_eVwbnun0PqZ3FdUg2V85N6k"
+curl http://localhost:8000/ask -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdHVkZW50Iiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NzY0MjE3NTYsImV4cCI6MTc3NjQyNTM1Nn0.p_2_9Gvoa17Bh9F2gpT_eVwbnun0PqZ3FdUg2V85N6k" -H "Content-Type: application/json" -d "{\"question\": \"Explain JWT\"}"
 ```
 
 ###  Exercise 4.3: Rate limiting

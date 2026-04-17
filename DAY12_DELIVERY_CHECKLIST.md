@@ -1,8 +1,8 @@
 #  Delivery Checklist — Day 12 Lab Submission
 
-> **Student Name:** _________________________  
-> **Student ID:** _________________________  
-> **Date:** _________________________
+> **Student Name:** Hoàng Ngọc Anh  
+> **Student ID:** 2A202600067  
+> **Date:** 18/4/2026
 
 ---
 
@@ -20,32 +20,39 @@ Create a file `MISSION_ANSWERS.md` with your answers to all exercises:
 ## Part 1: Localhost vs Production
 
 ### Exercise 1.1: Anti-patterns found
-1. [Your answer]
-2. [Your answer]
+1. Vấn đề 1: API key hardcode trong code. Nếu push lên GitHub → key bị lộ ngay lập tức
+2. Vấn đề 2: Không có config management
+3. Vấn đề 3: Print thay vì proper logging
+4. Vấn đề 4: Không có health check endpoint
+5. Vấn đề 5: Port cố định — không đọc từ environment
 ...
 
 ### Exercise 1.3: Comparison table
 | Feature | Develop | Production | Why Important? |
 |---------|---------|------------|----------------|
-| Config  | ...     | ...        | ...            |
-...
+| Config | Hardcode | Env vars | Bảo mật secrets (không lộ key) & cho phép thay đổi cấu hình ứng với từng môi trường mà không cần dùng code mới. |
+| Health check | Không có | Có | Giúp hệ thống platform/container biết khi nào ứng dụng còn sống hoặc sẵn sàng xử lý traffic để restart/route hợp lý. |
+| Logging | print() | JSON | Giúp máy và hệ thống quản lý log (như Datadog, ELK) dễ dàng parse log, tìm kiếm, lưu trữ có cấu trúc. |
+| Shutdown | Đột ngột | Graceful | Chờ các requests và process đang chạy được hoàn thành nốt trước khi đóng ứng dụng để không làm mất kết nối bất ngờ với người dùng. |
 
 ## Part 2: Docker
 
 ### Exercise 2.1: Dockerfile questions
-1. Base image: [Your answer]
-2. Working directory: [Your answer]
-...
+1. Base image: python:3.11
+2. Working directory: /app
+3. Để Docker cache và không phải cài lại package mỗi lần sửa code
+4. CMD = mặc định, dễ thay. ENTRYPOINT = chương trình chính
+
 
 ### Exercise 2.3: Image size comparison
-- Develop: [X] MB
-- Production: [Y] MB
-- Difference: [Z]%
+- Develop: 1150 MB
+- Production: 160 MB
+- Difference: 86.1%
 
 ## Part 3: Cloud Deployment
 
 ### Exercise 3.1: Railway deployment
-- URL: https://your-app.railway.app
+- URL: https://precious-spontaneity-production-66dd.up.railway.app/health
 - Screenshot: [Link to screenshot in repo]
 
 ## Part 4: API Security
@@ -143,16 +150,16 @@ curl -X POST https://your-agent.railway.app/ask \
 
 ##  Pre-Submission Checklist
 
-- [ ] Repository is public (or instructor has access)
-- [ ] `MISSION_ANSWERS.md` completed with all exercises
-- [ ] `DEPLOYMENT.md` has working public URL
-- [ ] All source code in `app/` directory
-- [ ] `README.md` has clear setup instructions
-- [ ] No `.env` file committed (only `.env.example`)
-- [ ] No hardcoded secrets in code
-- [ ] Public URL is accessible and working
-- [ ] Screenshots included in `screenshots/` folder
-- [ ] Repository has clear commit history
+- [x] Repository is public (or instructor has access)
+- [x] `MISSION_ANSWERS.md` completed with all exercises
+- [x] `DEPLOYMENT.md` has working public URL
+- [x] All source code in `app/` directory
+- [x] `README.md` has clear setup instructions
+- [x] No `.env` file committed (only `.env.example`)
+- [x] No hardcoded secrets in code
+- [x] Public URL is accessible and working
+- [x] Screenshots included in `screenshots/` folder
+- [x] Repository has clear commit history
 
 ---
 
